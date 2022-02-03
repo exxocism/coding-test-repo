@@ -1,9 +1,11 @@
-const MainPageMobile = () => {
+import HeaderMobile from '../Components/HeaderMobile';
+
+const MainPage = () => {
   return (
-    <div>
-      <h1>Main Page Mobile</h1>
-    </div>
+    <>
+      <HeaderMobile />
+    </>
   );
 };
 
-export default MainPageMobile;
+export default MainPage;

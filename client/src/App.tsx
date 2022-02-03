@@ -1,5 +1,6 @@
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
+import { ThemeProvider } from 'styled-components';
 
 import MainPage from './Pages/MainPage';
 import MainPageMobile from './Pages/MainPageMobile';
