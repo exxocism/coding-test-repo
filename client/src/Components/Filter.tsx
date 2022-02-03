@@ -195,7 +195,7 @@ const Filter = () => {
       <GhostDiv />
       <FormGroup>
         <FormControlLabelStyled
-          control={<Switch defaultChecked />}
+          control={<Switch />}
           label="상담 중인 요청만 보기"
         />
       </FormGroup>
