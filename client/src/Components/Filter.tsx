@@ -9,7 +9,6 @@ import {
   SelectChangeEvent,
   Checkbox,
   Switch,
-  autocompleteClasses,
 } from '@mui/material';
 import { styled } from '@mui/system';
 import Styled from 'styled-components';
@@ -61,6 +60,14 @@ const ResetFilterContainer = Styled.div`
   justify-content: space-between;
   margin-left: 24px;
   width: 86px;
+  cursor: pointer;
+
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 `;
 
 const ResetFilterText = Styled.div`
@@ -175,7 +182,12 @@ const Filter = () => {
         </Select>
       </FormControl>
       {isAnythingInListChecked && (
-        <ResetFilterContainer>
+        <ResetFilterContainer
+          onClick={() => {
+            setIngridientList([]);
+            setProcessMethod([]);
+          }}
+        >
           <RefreshIcon sx={{ fontSize: '16px', color: '#2196F3' }} />
           <ResetFilterText>필터링 리셋</ResetFilterText>
         </ResetFilterContainer>
