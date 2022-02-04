@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import {
   FormControlLabel,
   MenuItem,
@@ -12,6 +12,13 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/system';
 import Styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store';
+import {
+  setProcessMethod,
+  setIngridientList,
+  setOnlyInConsult,
+} from '../redux/filter';
 
 import { Refresh as RefreshIcon } from '@mui/icons-material';
 
@@ -91,8 +98,14 @@ const methodName: string[] = ['밀링', '선반'];
 const ingridientName: string[] = ['알루미늄', '탄소강', '구리', '합금', '강철'];
 
 const FilterMobile = () => {
-  const [processMethod, setProcessMethod] = useState<string[]>([]);
-  const [ingridientList, setIngridientList] = useState<string[]>([]);
+  const processMethod = useSelector<RootState, string[]>(
+    (state) => state.processMethod
+  );
+  const ingridientList = useSelector<RootState, string[]>(
+    (state) => state.ingridientList
+  );
+  const dispatch = useDispatch();
+
   const isAnythingInListChecked: Boolean = useMemo(() => {
     return processMethod.length > 0 || ingridientList.length > 0;
   }, [processMethod, ingridientList]);
@@ -103,7 +116,9 @@ const FilterMobile = () => {
     const {
       target: { value },
     }: { target: any } = event;
-    setProcessMethod(typeof value === 'string' ? value.split(',') : value);
+    dispatch(
+      setProcessMethod(typeof value === 'string' ? value.split(',') : value)
+    );
   };
 
   const handleIngridientChange = (
@@ -112,7 +127,9 @@ const FilterMobile = () => {
     const {
       target: { value },
     }: { target: any } = event;
-    setIngridientList(typeof value === 'string' ? value.split(',') : value);
+    dispatch(
+      setIngridientList(typeof value === 'string' ? value.split(',') : value)
+    );
   };
 
   return (
@@ -138,6 +155,10 @@ const FilterMobile = () => {
               maxHeight: '32px',
               minWidth: '98px',
               maxWidth: '120px',
+              color: processMethod.length ? 'white' : 'inherit',
+              backgroundColor: processMethod.length
+                ? 'rgba(21, 101, 192, 1)'
+                : 'inherit',
             }}
           >
             {methodName.map((name) => (
@@ -168,6 +189,10 @@ const FilterMobile = () => {
               maxHeight: '32px',
               minWidth: '76px',
               maxWidth: '96px',
+              color: ingridientList.length ? 'white' : 'inherit',
+              backgroundColor: ingridientList.length
+                ? 'rgba(21, 101, 192, 1)'
+                : 'inherit',
             }}
           >
             {ingridientName.map((name) => (
@@ -181,8 +206,8 @@ const FilterMobile = () => {
         {isAnythingInListChecked && (
           <ResetFilterContainer
             onClick={() => {
-              setIngridientList([]);
-              setProcessMethod([]);
+              dispatch(setIngridientList([]));
+              dispatch(setProcessMethod([]));
             }}
           >
             <RefreshIcon sx={{ fontSize: '16px', color: '#2196F3' }} />
@@ -192,7 +217,11 @@ const FilterMobile = () => {
       </FilterConatiner>
       <FormGroup>
         <FormControlLabelStyled
-          control={<Switch />}
+          control={
+            <Switch
+              onChange={(e) => dispatch(setOnlyInConsult(e.target.checked))}
+            />
+          }
           label="상담 중인 요청만 보기"
         />
       </FormGroup>

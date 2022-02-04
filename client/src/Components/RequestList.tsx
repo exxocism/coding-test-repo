@@ -1,8 +1,10 @@
-import { FunctionComponent } from 'react';
-import { styled } from '@mui/system';
 import Styled from 'styled-components';
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 
 import RequestCard from './RequestCard';
+import { ConstructionOutlined } from '@mui/icons-material';
 export interface reqProps {
   id: number;
   title: string;
@@ -16,7 +18,7 @@ export interface reqProps {
 }
 
 const EmptyListConatiner = Styled.div`
-  margin-top: 32px;
+  margin-top: 28px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,7 +35,7 @@ const EmptyListConatiner = Styled.div`
 `;
 
 const RequestListConatiner = Styled.div`
-  margin-top: 32px;
+  margin-top: 28px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
@@ -41,15 +43,46 @@ const RequestListConatiner = Styled.div`
 `;
 
 const RequestList = ({ list }: { list: reqProps[] | null }) => {
+  const processMethod = useSelector<RootState, string[]>(
+    (state) => state.processMethod
+  );
+  const ingridientList = useSelector<RootState, string[]>(
+    (state) => state.ingridientList
+  );
+  const onlyInConsult = useSelector<RootState, boolean>(
+    (state) => state.onlyInConsult
+  );
+  const listFiltered: reqProps[] | null = useMemo(() => {
+    if (!list) return null;
+    const newlist: reqProps[] | null = [];
+    for (const req of list) {
+      if (onlyInConsult && req.status !== '상담중') continue;
+      if (processMethod.length) {
+        const methodCheck = processMethod.some((method) =>
+          req.method.includes(method)
+        );
+        if (!methodCheck) continue;
+      }
+      if (ingridientList.length) {
+        const ingridientCheck = ingridientList.some((ingridient) =>
+          req.material.includes(ingridient)
+        );
+        if (!ingridientCheck) continue;
+      }
+      newlist.push(req);
+    }
+    return newlist.length ? newlist : null;
+  }, [processMethod, ingridientList, onlyInConsult, list]);
+
   return (
     <>
-      {!list ? (
+      {!listFiltered ? (
         <EmptyListConatiner>
           조건에 맞는 견적 요청이 없습니다.
         </EmptyListConatiner>
       ) : (
         <RequestListConatiner>
-          {list?.map((req: reqProps, index: number) => (
+          {listFiltered?.map((req: reqProps, index: number) => (
             <RequestCard key={index} req={req} />
           ))}
         </RequestListConatiner>
