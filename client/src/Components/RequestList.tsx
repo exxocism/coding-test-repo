@@ -1,18 +1,18 @@
 import { FunctionComponent } from 'react';
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-} from '@mui/material';
-import { Menu as MenuIcon } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import Styled from 'styled-components';
 
-interface DateProps {
-  list: Array<object> | null;
+import RequestCard from './RequestCard';
+export interface reqProps {
+  id: number;
+  title: string;
+  client: string;
+  due: string;
+  count: number;
+  amount: number;
+  method: string[];
+  material: string[];
+  status: string;
 }
 
 const EmptyListConatiner = Styled.div`
@@ -23,7 +23,6 @@ const EmptyListConatiner = Styled.div`
   width: 100%;
   height: 155px;
   border: 1px solid #C2C2C2;
-  box-sizing: border-box;
   border-radius: 4px; 
 
   font-family: "Noto Sans KR";
@@ -33,9 +32,29 @@ const EmptyListConatiner = Styled.div`
   color: #939FA5;
 `;
 
-const RequestList: FunctionComponent<DateProps> = ({ list }) => {
+const RequestListConatiner = Styled.div`
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 16px;
+`;
+
+const RequestList = ({ list }: { list: reqProps[] | null }) => {
   return (
-    <EmptyListConatiner>조건에 맞는 견적 요청이 없습니다.</EmptyListConatiner>
+    <>
+      {!list ? (
+        <EmptyListConatiner>
+          조건에 맞는 견적 요청이 없습니다.
+        </EmptyListConatiner>
+      ) : (
+        <RequestListConatiner>
+          {list?.map((req: reqProps, index: number) => (
+            <RequestCard key={index} req={req} />
+          ))}
+        </RequestListConatiner>
+      )}
+    </>
   );
 };
 

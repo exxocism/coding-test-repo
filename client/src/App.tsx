@@ -1,10 +1,8 @@
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { ThemeProvider } from 'styled-components';
 
 import MainPage from './Pages/MainPage';
 import MainPageMobile from './Pages/MainPageMobile';
-//import './App.css';
 
 function App() {
   const isMobile: Boolean = useMediaQuery({ query: '(max-aspect-ratio: 3/4)' });
