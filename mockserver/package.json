@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "json-server --watch requests.json"
+    "start": "json-server --host 0.0.0.0 --watch requests.json"
   },
   "author": "",
   "license": "ISC"
