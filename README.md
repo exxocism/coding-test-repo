@@ -7,4 +7,6 @@ coding test repo for submission.
 ![](https://img.shields.io/badge/Styled_Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=pink)
 ![](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white)
 
+![](https://github.com/exxocism/exxo-file-share/raw/master/test_output/01.png)
 
+![](https://github.com/exxocism/exxo-file-share/raw/master/test_output/02.png)
