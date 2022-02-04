@@ -21,7 +21,19 @@ const CardConatiner = Styled.div`
   }
 `;
 
+const RequestTitleContainer = Styled.div`
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+
+  & span {
+    font-size: inherit;
+    text-overflow: clip;
+  }
+`;
+
 const ReuqestTitle = Styled.div`
+  flex-grow: 1;
   font-weight: bold;
   font-size: 16px;
   line-height: 24px;
@@ -32,6 +44,14 @@ const ReuqestTitle = Styled.div`
   /* Gray / 900 (default) */
   color: #323D45;
 `;
+
+const ChatInProgress = styled(Chip)({
+  width: '50px',
+  fontFamily: 'Noto Sans KR',
+  fontStyle: 'Normal',
+  fontWeight: 500,
+  fontSize: '12px',
+});
 
 const RequestFrom = Styled.div`
   margin-top: 4px;
@@ -115,7 +135,17 @@ const BtnChat = Styled(Button)({
 const RequestCard = ({ req }: { req: reqProps }) => {
   return (
     <CardConatiner>
-      <ReuqestTitle>{req?.title}</ReuqestTitle>
+      <RequestTitleContainer>
+        <ReuqestTitle>{req?.title}</ReuqestTitle>
+        {req?.status === '상담중' && (
+          <ChatInProgress
+            size="small"
+            variant="outlined"
+            color="warning"
+            label="상담중"
+          />
+        )}
+      </RequestTitleContainer>
       <RequestFrom>{req?.client}</RequestFrom>
       <DueTime>{req?.due} 까지 납기</DueTime>
       <DividerForCard />
